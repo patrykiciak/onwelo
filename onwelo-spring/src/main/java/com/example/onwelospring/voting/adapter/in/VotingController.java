@@ -6,6 +6,8 @@ import com.example.onwelospring.voting.application.port.in.GetCandidateVotesUseC
 import com.example.onwelospring.voting.application.port.in.GetVotersUseCase;
 import com.example.onwelospring.voting.application.port.in.SubmitVoteUseCase;
 import com.example.onwelospring.voting.domain.Voter;
+import com.example.onwelospring.voting.exception.InvalidReferenceException;
+import com.example.onwelospring.voting.exception.InvalidRequestException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +61,9 @@ class VotingController {
 
     @PostMapping("votes")
     void postVote(@RequestBody PostVoteRequest request) {
+        if(request.voterId() == null || request.candidateId() == null) {
+            throw new InvalidRequestException();
+        }
         submitVoteUseCase.submitVote(request.voterId(), request.candidateId());
     }
 }
