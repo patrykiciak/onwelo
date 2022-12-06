@@ -8,6 +8,7 @@ import com.example.onwelospring.voting.application.port.out.GetVoterPort;
 import com.example.onwelospring.voting.application.port.out.SubmitVotePort;
 import com.example.onwelospring.voting.domain.Candidate;
 import com.example.onwelospring.voting.domain.Voter;
+import com.example.onwelospring.voting.exception.InvalidReferenceException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -42,8 +43,8 @@ class VotingAdapter
 
     @Override
     public void submitVote(int voterId, int candidateId) {
-        final var voter = voterRepository.findById(voterId).orElseThrow();
-        final var candidate = candidateRepository.findById(candidateId).orElseThrow();
+        final var voter = voterRepository.findById(voterId).orElseThrow(InvalidReferenceException::new);
+        final var candidate = candidateRepository.findById(candidateId).orElseThrow(InvalidReferenceException::new);
         voter.setVotedFor(candidate);
         voterRepository.save(voter);
     }
