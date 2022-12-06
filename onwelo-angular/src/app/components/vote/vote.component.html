@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" autocomplete="off">
+
+  <mat-form-field appearance="outline" class="field">
+    <mat-label>I am</mat-label>
+    <mat-select formControlName="voter">
+      <mat-option *ngFor="let voter of (voters$ | async) || []" [value]="voter">{{voter.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="field">
+    <mat-label>I vote for</mat-label>
+    <mat-select formControlName="candidate">
+      <mat-option *ngFor="let candidate of (candidates$ | async) || []" [value]="candidate">{{candidate.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button [disabled]="!formGroup.valid" type="submit">Submit</button>
+</form>

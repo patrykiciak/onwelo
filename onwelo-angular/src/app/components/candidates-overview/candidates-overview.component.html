@@ -1,0 +1,24 @@
+<mat-card class="card">
+
+  <ng-template #loading>
+    Loading...
+  </ng-template>
+
+  <ng-container *ngIf="(candidates$ | async) != null; else loading">
+
+    <mat-card-title>
+      <span class="vertical-center">Candidates</span>
+      <button mat-icon-button class="vertical-center" (click)="addCandidate()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-card-title>
+
+    <mat-card-content>
+      <div *ngFor="let candidate of candidates$ | async">{{candidate.name}}: {{candidate.votes}}</div>
+    </mat-card-content>
+
+  </ng-container>
+
+</mat-card>
+
+
