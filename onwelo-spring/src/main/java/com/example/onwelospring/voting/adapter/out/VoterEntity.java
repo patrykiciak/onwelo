@@ -1,6 +1,5 @@
 package com.example.onwelospring.voting.adapter.out;
 
-import com.example.onwelospring.voting.domain.Voter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,9 +50,5 @@ class VoterEntity {
 
     public void setVotedFor(CandidateEntity votedFor) {
         this.votedFor = votedFor;
-    }
-
-    Voter toDomain() {
-        return new Voter(id, name, votedFor.toDomain());
     }
 }

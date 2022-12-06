@@ -2,12 +2,12 @@ package com.example.onwelospring.voting;
 
 import com.example.onwelospring.voting.application.CreateCandidateService;
 import com.example.onwelospring.voting.application.CreateVotersService;
-import com.example.onwelospring.voting.application.GetCandidatesService;
+import com.example.onwelospring.voting.application.GetCandidateVotesService;
 import com.example.onwelospring.voting.application.GetVotersService;
 import com.example.onwelospring.voting.application.SubmitVoteService;
 import com.example.onwelospring.voting.application.port.out.CreateCandidatePort;
 import com.example.onwelospring.voting.application.port.out.CreateVoterPort;
-import com.example.onwelospring.voting.application.port.out.GetCandidatesPort;
+import com.example.onwelospring.voting.application.port.out.GetCandidateVotesPort;
 import com.example.onwelospring.voting.application.port.out.GetVoterPort;
 import com.example.onwelospring.voting.application.port.out.SubmitVotePort;
 import org.springframework.context.annotation.Bean;
@@ -22,8 +22,8 @@ public class CandidatesApplicationBeans {
     }
 
     @Bean
-    GetCandidatesService getCandidatesService(GetCandidatesPort getCandidatesPort) {
-        return new GetCandidatesService(getCandidatesPort);
+    GetCandidateVotesService getCandidatesService(GetCandidateVotesPort getCandidateVotesPort) {
+        return new GetCandidateVotesService(getCandidateVotesPort);
     }
 
     @Bean

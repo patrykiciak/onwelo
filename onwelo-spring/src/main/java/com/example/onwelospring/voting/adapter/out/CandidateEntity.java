@@ -41,7 +41,7 @@ class CandidateEntity {
         this.name = name;
     }
 
-    Candidate toDomain() {
+    public Candidate toDomain() {
         return new Candidate(id, name);
     }
 }
