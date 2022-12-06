@@ -1,7 +1,7 @@
 <mat-card class="card">
 
   <ng-template #loading>
-    Loading...
+    Data isn't loaded yet...
   </ng-template>
 
   <ng-container *ngIf="(candidates$ | async) != null; else loading">

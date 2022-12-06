@@ -38,5 +38,8 @@ export class VoteComponent implements OnInit {
       voterId: this.voter.id,
       candidateId: this.candidate.id
     })
+    this.formGroup.markAsPristine();
+    this.formGroup.markAsUntouched();
+    this.formGroup.updateValueAndValidity();
   }
 }
