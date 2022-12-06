@@ -35,8 +35,8 @@ export class VoteComponent implements OnInit {
 
   onSubmit(): void {
     this.votesService.sendVote({
-      author: this.voter.id,
-      votedFor: this.candidate.id
+      voterId: this.voter.id,
+      candidateId: this.candidate.id
     })
   }
 }

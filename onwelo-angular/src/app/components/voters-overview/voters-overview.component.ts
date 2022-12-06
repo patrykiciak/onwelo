@@ -15,7 +15,7 @@ export class VotersOverviewComponent implements OnInit {
     map(voters => voters?.map(voter => ({
       id: voter.id,
       name: voter.name,
-      hasVoted: voter.hasVoted
+      hasVoted: voter.votedFor !== null
     } as Voter)))
   );
 
@@ -34,7 +34,7 @@ export class VotersOverviewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.votesService.addCandidate(result);
+        this.votesService.addVoter(result);
       }
     })
   }

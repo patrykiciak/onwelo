@@ -33,7 +33,7 @@ export class CandidatesOverviewComponent implements OnInit {
 
     const result = await lastValueFrom(dialogRef.afterClosed())
     if (result != null) {
-      await this.votesService.addCandidate(result);
+      this.votesService.addCandidate(result);
     }
   }
 }

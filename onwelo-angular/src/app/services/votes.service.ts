@@ -1,10 +1,10 @@
 import {BehaviorSubject, lastValueFrom, Observable} from "rxjs";
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 
 export interface PostVoteDTO {
-  author: number;
-  votedFor: number;
+  voterId: number;
+  candidateId: number;
 }
 
 export interface GetCandidateDTO {
@@ -16,7 +16,7 @@ export interface GetCandidateDTO {
 export interface GetVoterDTO {
   id: number;
   name: string;
-  hasVoted: boolean;
+  votedFor: any;
 }
 
 export interface PostVoter {
@@ -38,43 +38,44 @@ export class VotesService {
   constructor(
     private httpClient: HttpClient
   ) {
-    this._candidatesSubject.next(this.getCandidates());
-    this._votersSubject.next(this.getVoters());
+    this.loadCandidates();
+    this.loadVoters();
   }
 
-  private getCandidates(): GetCandidateDTO[] {
-    return [
-      {id: 1, name: 'Hyzio', votes: 0},
-      {id: 2, name: 'Dyzio', votes: 0},
-      {id: 3, name: 'Zyzio', votes: 0},
-    ]
+  private loadCandidates(): void {
+    this.httpClient.get<GetCandidateDTO[]>('http://localhost:8080/votes').subscribe(value => {
+      this._candidatesSubject.next(value);
+    })
   }
 
-  private getVoters(): GetVoterDTO[] {
-    return [
-      {id: 1, name: 'Patryk', hasVoted: false},
-      {id: 2, name: 'Adrian', hasVoted: false},
-      {id: 3, name: 'Mikołaj', hasVoted: false},
-      {id: 4, name: 'Ryszard', hasVoted: false},
-    ]
+  private loadVoters(): void {
+    this.httpClient.get<GetVoterDTO[]>('http://localhost:8080/voters').subscribe(value => {
+      this._votersSubject.next(value);
+    })
   }
 
   public sendVote(vote: PostVoteDTO): void {
-    console.log('Vote', vote.author, vote.votedFor)
+    this.httpClient.post('http://localhost:8080/votes', vote, {observe: "response"}).subscribe(() => {
+      this.loadVoters();
+      this.loadCandidates();
+    });
   }
 
-  async addCandidate(name: string): Promise<HttpResponse<Object>> {
-    const request: PostCandidate = {
-      name: name
-    }
-    console.log('Adding candidate', name);
-    return await lastValueFrom(this.httpClient.post('http://localhost:8080/candidates', request, {observe: 'response'}));
-  }
-
-  async addVoter(name: string): Promise<HttpResponse<Object>> {
+  addVoter(name: string): void {
     const request: PostVoter = {
       name: name
     }
-    return await lastValueFrom(this.httpClient.post('http://localhost:8080/candidates', request, {observe: 'response'}));
+    lastValueFrom(this.httpClient.post('http://localhost:8080/voters', request, {observe: 'response'})).then(() => {
+      this.loadVoters();
+    });
+  }
+
+  addCandidate(name: string): void {
+    const request: PostCandidate = {
+      name: name
+    }
+    lastValueFrom(this.httpClient.post('http://localhost:8080/candidates', request, {observe: 'response'})).then(() => {
+      this.loadCandidates();
+    });
   }
 }
