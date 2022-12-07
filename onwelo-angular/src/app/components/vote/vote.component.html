@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" autocomplete="off">
+<form [formGroup]="formGroup" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)" autocomplete="off">
 
   <mat-form-field appearance="outline" class="field">
     <mat-label>I am</mat-label>

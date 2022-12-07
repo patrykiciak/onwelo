@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {VotesService} from "../../services/votes.service";
 import {Voter} from "../voters-overview/voter.model";
 import {Candidate} from "../candidates-overview/candidate.model";
@@ -33,13 +33,12 @@ export class VoteComponent implements OnInit {
     return this.formGroup.get('candidate')?.value;
   }
 
-  onSubmit(): void {
+  onSubmit(formDirective: FormGroupDirective): void {
     this.votesService.sendVote({
       voterId: this.voter.id,
       candidateId: this.candidate.id
     })
-    this.formGroup.markAsPristine();
-    this.formGroup.markAsUntouched();
-    this.formGroup.updateValueAndValidity();
+
+    formDirective.resetForm();
   }
 }
